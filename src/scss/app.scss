@@ -369,3 +369,14 @@ body {
     }
   }
 }
+.full-item {
+  margin: 0 auto;
+  width: 500px;
+  img {
+    justify-content: center;
+  }
+}
+.ful-name {
+  display: flex;
+  justify-content: space-between;
+}
