@@ -372,6 +372,10 @@ body {
 .full-item {
   margin: 0 auto;
   width: 500px;
+  p {
+    width: 500px;
+    word-break: break-word;
+  }
   img {
     justify-content: center;
   }

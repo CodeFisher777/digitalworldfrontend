@@ -2,11 +2,19 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import CartItemBlock from '../components/CartItemBlock';
 import { useSelector, useDispatch } from 'react-redux';
-import { CartItem, clearItems, selectCart } from '../redux/slices/cartSlice';
 import CartEmpty from '../components/CartEmpty';
+import { selectCart } from '../redux/slices/cart/selectors';
+import { clearItems } from '../redux/slices/cart/slice';
+import { CartItem } from '../redux/slices/cart/types';
+import { useNavigate } from 'react-router-dom';
+import axios from '../redux/axios';
+import { selectIsAuth, selectFullName } from '../redux/auth';
+import { objectTraps } from 'immer/dist/internal';
 
 const Cart: React.FC = () => {
+  const navigate = useNavigate();
   const { totalPrice, items } = useSelector(selectCart);
+
   const dispatch = useDispatch();
   const totalCount = items.reduce((sum: number, item: any) => sum + item.count, 0);
 
@@ -18,6 +26,19 @@ const Cart: React.FC = () => {
   if (!totalPrice) {
     return <CartEmpty />;
   }
+
+  const onSubmit = async () => {
+    try {
+      console.log(items);
+      const { data } = await axios.post('/orders', items);
+      dispatch(clearItems());
+      window.localStorage.removeItem('cart');
+      navigate('/order-completed');
+    } catch (err) {
+      console.warn(err);
+      alert('Ошибка при создании заказа');
+    }
+  };
 
   return (
     <div className="container container--cart">
@@ -132,9 +153,10 @@ const Cart: React.FC = () => {
 
               <span>Вернуться назад</span>
             </Link>
-            <div className="button pay-btn">
-              <span>Оплатить сейчас</span>
-            </div>
+
+            <button type="submit" onClick={onSubmit} className="button pay-btn">
+              <span>Сделать заказ</span>
+            </button>
           </div>
         </div>
       </div>

@@ -1,0 +1,25 @@
+.root {
+  width: 400px;
+  padding: 50px;
+  border: 1px solid #dedede;
+  margin: 50px auto;
+}
+
+.field {
+  margin-bottom: 20px !important;
+}
+
+.title {
+  text-align: center !important;
+  font-weight: bold !important;
+  margin-bottom: 30px !important;
+}
+.registr {
+  margin-top: 20px;
+  font-size: 18px;
+  padding-left: 70px;
+  cursor: pointer;
+  &:hover {
+    color: blue;
+  }
+}

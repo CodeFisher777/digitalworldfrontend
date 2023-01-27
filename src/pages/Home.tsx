@@ -3,30 +3,21 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useAppDispatch } from '../redux/store';
 import qs from 'qs';
-import {
-  FilterSliceState,
-  selectFilter,
-  SerchProductParams,
-  setCategoryId,
-  setCurrentPage,
-  setFilters,
-} from '../redux/slices/filterSlice';
-import { fetchProduct, FetchProductArgs, selectProduct } from '../redux/slices/productSlice';
-
 import { sortList } from '../components/Sort';
-import Categories from '../components/Categories';
-import Sort from '../components/Sort';
-import PizzaBlock from '../components/PizzaBlock';
-import Skeleton from '../components/PizzaBlock/Skeleton';
-import Pagination from '../components/Pagination';
+import { Categories, Sort, PizzaBlock, Skeleton, Pagination } from '../components';
 import { RootState } from '../redux/store';
+import { selectFilter } from '../redux/slices/filter/selectors';
+import { selectProduct } from '../redux/slices/product/selectors';
+import { setCategoryId, setCurrentPage, setFilters } from '../redux/slices/filter/slice';
+import { fetchProduct } from '../redux/slices/product/slice';
+import { SerchProductParams } from '../redux/slices/filter/types';
 
 export const Home: React.FC = () => {
   const navigate = useNavigate();
 
   const { categoryId, currentPage, searchValue } = useSelector(selectFilter);
 
-  const sortType = useSelector((state: RootState) => state.filter.sort.sortProperty);
+  const sortType = useSelector((state: RootState) => state.filter.sort);
   const { items, status } = useSelector(selectProduct);
 
   const dispatch = useAppDispatch();
@@ -35,16 +26,16 @@ export const Home: React.FC = () => {
   const isSearch = React.useRef(false);
   const isMounted = React.useRef(false);
 
-  const onClickCategory = (id: number) => {
+  const onClickCategory = React.useCallback((id: number) => {
     dispatch(setCategoryId(id));
-  };
+  }, []);
   const onChangePage = (page: number) => {
     dispatch(setCurrentPage(page));
   };
   const getProduct = async () => {
     setIsLoading(true);
-    const sortBy = sortType.replace('-', '');
-    const order = sortType.includes('-') ? 'asc' : 'desc';
+    const sortBy = sortType.sortProperty.replace('-', '');
+    const order = sortType.sortProperty.includes('-') ? 'asc' : 'desc';
     const category = categoryId > 0 ? `category=${categoryId}` : '';
     const search = searchValue ? `search=${searchValue}` : '';
 
@@ -101,13 +92,23 @@ export const Home: React.FC = () => {
     isMounted.current = true;
   }, [categoryId, sortType, searchValue, currentPage]);
 
-  const pizzas = items.map((obj: any) => <PizzaBlock key={obj.id} {...obj} />);
+  const pizzas = items.map((obj: any) => (
+    <PizzaBlock
+      key={obj._id}
+      id={obj._id}
+      title={obj.title}
+      text={obj.text}
+      price={obj.price}
+      imageUrl={obj.imageUrl ? `http://localhost:4444${obj.imageUrl}` : ''}
+    />
+  ));
   const skeletons = [...new Array(6)].map((_, index) => <Skeleton key={index} />);
+
   return (
     <div className="container">
       <div className="content__top">
         <Categories value={categoryId} onClickCategory={onClickCategory} />
-        <Sort />
+        <Sort value={sortType} />
       </div>
       <h2 className="content__title">Все товары</h2>
       {status === 'error' ? (

@@ -1,37 +1,76 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { addItem, CartItem, selectCartItemById } from '../../redux/slices/cartSlice';
+import IconButton from '@mui/material/IconButton';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Clear';
 import { Link } from 'react-router-dom';
+import { selectIsAuth, selectFullName, selectMaster, setMaster } from '../../redux/auth';
+
+import { selectCartItemById } from '../../redux/slices/cart/selectors';
+import { addItem } from '../../redux/slices/cart/slice';
+import { CartItem } from '../../redux/slices/cart/types';
+import { fetchRemoveProduct } from '../../redux/slices/product/slice';
 
 type PizzaBlockProps = {
   id: string;
+  text: string;
   title: string;
   price: number;
   imageUrl: string;
 };
 const PizzaBlock: React.FC<PizzaBlockProps> = ({ id, title, price, imageUrl }) => {
   const dispatch = useDispatch();
+
   const cartItem = useSelector(selectCartItemById(id));
+  const isAuth = useSelector(selectIsAuth);
+  const userData = useSelector(selectFullName);
+  const isMaster = useSelector(selectMaster);
+
+  if (isAuth && userData._id === '63d10308858f5e5862e53d22') {
+    dispatch(setMaster(true));
+  }
+
+  const onClickRemove = () => {
+    if (window.confirm('Вы действительно хотите удалить продукт?'))
+      //@ts-ignore
+      dispatch(fetchRemoveProduct(id));
+  };
 
   const addedCount = cartItem ? cartItem.count : 0;
 
   const onAddItem = () => {
+    const user = isAuth ? userData.fullName : '';
     const item: CartItem = {
       id,
       title,
       price,
       imageUrl,
       count: 0,
+      user,
     };
     dispatch(addItem(item));
   };
   return (
     <div className="pizza-block-wrapper">
       <div className="pizza-block">
-        <Link to={`/items/${id}`}>
+        <Link to={`/products/${id}`}>
           <img className="pizza-block__image" src={imageUrl} alt="Pizza" />
           <h4 className="pizza-block__title">{title}</h4>
         </Link>
+
+        {isMaster ? (
+          <>
+            <IconButton color="primary">
+              <EditIcon />
+            </IconButton>
+            <IconButton onClick={onClickRemove} color="secondary">
+              <DeleteIcon />
+            </IconButton>
+          </>
+        ) : (
+          <></>
+        )}
+
         <div className="pizza-block__bottom">
           <div className="pizza-block__price">цена: {price} ₽</div>
           <button onClick={onAddItem} className="button button--outline button--add">
