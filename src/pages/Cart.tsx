@@ -9,11 +9,13 @@ import { CartItem } from '../redux/slices/cart/types';
 import { useNavigate } from 'react-router-dom';
 import axios from '../redux/axios';
 import { selectIsAuth, selectFullName } from '../redux/auth';
-import { objectTraps } from 'immer/dist/internal';
 
 const Cart: React.FC = () => {
   const navigate = useNavigate();
   const { totalPrice, items } = useSelector(selectCart);
+  const userData = useSelector(selectFullName);
+  const isAuth = useSelector(selectIsAuth);
+  const [numberOfOrder, setNumberOfOrder] = React.useState(0);
 
   const dispatch = useDispatch();
   const totalCount = items.reduce((sum: number, item: any) => sum + item.count, 0);
@@ -27,13 +29,34 @@ const Cart: React.FC = () => {
     return <CartEmpty />;
   }
 
+  const arrOrders = items
+    .map((obj) => obj)
+    .map((item) => `  Продукт: ${item.title} кол-во: ${item.count} шт.  `);
+  arrOrders.push(`Имя: ${userData ? userData.fullName : ''}`);
+  arrOrders.push(`Email: ${userData ? userData.email : ''}`);
+  arrOrders.push(`Сумма заказа: ${totalPrice} р.`);
+  const zakaz = arrOrders.join();
+  const order = {
+    order: zakaz,
+    numberOrder: numberOfOrder,
+  };
+
   const onSubmit = async () => {
     try {
-      console.log(items);
-      const { data } = await axios.post('/orders', items);
-      dispatch(clearItems());
-      window.localStorage.removeItem('cart');
-      navigate('/order-completed');
+      //@ts-ignore
+      // order.numberOrder = setNumberOfOrder(numberOfOrder + 1);
+      // console.log(order);
+      if (isAuth === false) {
+        alert('Для того, чтобы сделать заказ пройдите регистрацию');
+        dispatch(clearItems());
+        window.localStorage.removeItem('cart');
+        navigate('/registration');
+      } else {
+        const { data } = await axios.post('/orders', order);
+        dispatch(clearItems());
+        window.localStorage.removeItem('cart');
+        navigate('/order-completed');
+      }
     } catch (err) {
       console.warn(err);
       alert('Ошибка при создании заказа');
@@ -126,7 +149,7 @@ const Cart: React.FC = () => {
           <div className="cart__bottom-details">
             <span>
               {' '}
-              Всего пицц: <b>{totalCount} шт.</b>{' '}
+              Всего товаров: <b>{totalCount} шт.</b>{' '}
             </span>
             <span>
               {' '}

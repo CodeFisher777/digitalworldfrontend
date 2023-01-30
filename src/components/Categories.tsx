@@ -6,14 +6,7 @@ type CategoriesProps = {
 };
 
 const Categories: React.FC<CategoriesProps> = React.memo(({ value, onClickCategory }) => {
-  const categories = [
-    'Все',
-    'Компьютеры',
-    'Бытовая техника',
-    'Телевизоры',
-    'Проекторы',
-    'Автотовары',
-  ];
+  const categories = ['Все', 'Экшены', 'Файтинги', 'Аркады', 'Симуляторы', 'Ужасы'];
 
   return (
     <div className="categories">

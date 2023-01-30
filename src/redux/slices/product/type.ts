@@ -1,9 +1,5 @@
 export type FetchProductArgs = {
-  sortBy: String;
-  order: String;
   category: String;
-  search: String;
-  currentPage: String;
 };
 
 export type ProductItem = {

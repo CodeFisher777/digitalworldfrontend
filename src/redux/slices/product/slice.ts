@@ -5,11 +5,9 @@ import { FetchProductArgs, ProductItem, ProductSliceState, Status } from './type
 export const fetchProduct = createAsyncThunk<ProductItem[], FetchProductArgs>(
   'product/fetchProductStatus',
   async (params) => {
-    const { sortBy, order, category, search, currentPage } = params;
-    // const { data } = await axios.get<ProductItem[]>(
-    //   `https://63ba93254482143a3f2ab5bc.mockapi.io/items?page=${currentPage}&limit=8&${category}&sortBy=${sortBy}&order=${order}&${search}`,
-    // );
-    const { data } = await axios.get<ProductItem[]>('/products');
+    const { category } = params;
+
+    const { data } = await axios.get<ProductItem[]>(`/products${category}`);
 
     return data;
   },
