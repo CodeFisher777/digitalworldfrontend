@@ -2,17 +2,11 @@ import React from 'react';
 import logo from '../assets/img/logo.png';
 import lk from '../assets/img/lk.png';
 import { Link, useLocation, Navigate, useNavigate } from 'react-router-dom';
+import Search from './Search';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectCart } from '../redux/slices/cart/selectors';
 
-import {
-  fetchAuth,
-  logout,
-  selectFullName,
-  selectIsAuth,
-  selectMaster,
-  setMaster,
-} from '../redux/auth';
+import { fetchAuth, logout, selectFullName, selectIsAuth } from '../redux/auth';
 import { clearItems } from '../redux/slices/cart/slice';
 
 const Header: React.FC = () => {
@@ -20,35 +14,34 @@ const Header: React.FC = () => {
   const dispatch = useDispatch();
   const isAuth = useSelector(selectIsAuth);
   const userData = useSelector(selectFullName);
-  const isMaster = useSelector(selectMaster);
 
   const { items, totalPrice } = useSelector(selectCart);
   const location = useLocation();
   const isMounted = React.useRef(false);
-  if (isAuth && userData._id === '63d10308858f5e5862e53d22') {
-    dispatch(setMaster(true));
-  }
+
   const totalCount = items.reduce((sum: number, item: any) => sum + item.count, 0);
 
   const onClickLogout = () => {
     if (window.confirm('Are you sure want to logout?')) {
       dispatch(logout());
       dispatch(clearItems());
-      dispatch(setMaster(false));
       window.localStorage.removeItem('token');
       window.localStorage.removeItem('cart');
-
       navigate('/');
+      // window.location.reload();
     }
   };
 
   React.useEffect(() => {
     if (isMounted.current) {
       const json = JSON.stringify(items);
+
       window.localStorage.setItem('cart', json);
     }
     isMounted.current = true;
   }, [items]);
+
+  // if (isAuth && userData._id === '63d10308858f5e5862e53d22')
 
   return (
     <div className="header">
@@ -63,6 +56,10 @@ const Header: React.FC = () => {
             </div>
           </div>
         </Link>
+
+        {location.pathname !== '/registration' &&
+          location.pathname !== '/cart' &&
+          location.pathname !== '/login' && <Search />}
         <div className="header__cart">
           {location.pathname !== '/registration' &&
             location.pathname !== '/cart' &&
@@ -104,25 +101,12 @@ const Header: React.FC = () => {
               </Link>
             )}
         </div>
-
         {isAuth ? (
           <>
-            {isMaster ? (
-              <>
-                <Link to="/addgame">
-                  <button className="button button--cart">добавить товар</button>
-                </Link>
-                <Link to="/orders">
-                  <button className="button button--cart">заказы</button>
-                </Link>
-              </>
-            ) : (
-              <></>
-            )}
             <button className="button button--cart" onClick={onClickLogout}>
               Выйти
             </button>
-            <p className="user-name">{userData.fullName}</p>
+            <p>{userData.fullName}</p>
           </>
         ) : (
           <>

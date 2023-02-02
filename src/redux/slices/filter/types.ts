@@ -1,10 +1,7 @@
 export enum SortPropertyEnum {
-  RATING_DESC = 'rating',
-  RATING_ASC = '-rating',
-  PRICE_DESC = '1',
-  PRICE_ASC = '-1',
-  TITLE_DESC = 'title',
-  TITLE_ASC = '-title',
+  RATING = 'rating',
+  PRICE = 'price',
+  TITLE = 'title',
 }
 
 export type SortType = {
@@ -21,5 +18,9 @@ export type SerchProductParams = {
 };
 
 export interface FilterSliceState {
+  searchValue: string;
   categoryId: number;
+  currentPage: number;
+  sort: SortType;
+  sortDirection: Boolean;
 }

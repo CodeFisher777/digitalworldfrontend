@@ -9,6 +9,7 @@ import { CartItem } from '../redux/slices/cart/types';
 import { useNavigate } from 'react-router-dom';
 import axios from '../redux/axios';
 import { selectIsAuth, selectFullName } from '../redux/auth';
+import { objectTraps } from 'immer/dist/internal';
 
 const Cart: React.FC = () => {
   const navigate = useNavigate();
@@ -149,7 +150,7 @@ const Cart: React.FC = () => {
           <div className="cart__bottom-details">
             <span>
               {' '}
-              Всего товаров: <b>{totalCount} шт.</b>{' '}
+              Всего пицц: <b>{totalCount} шт.</b>{' '}
             </span>
             <span>
               {' '}

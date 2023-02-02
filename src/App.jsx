@@ -2,21 +2,21 @@ import React from 'react';
 import './scss/app.scss';
 import { Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
-import { AddGame } from './pages/AddGame';
+import { AddPost } from './pages/AddPost';
 import { useDispatch, useSelector } from 'react-redux';
 import { Login } from './pages/Login';
 import NotFound from './pages/NotFound';
 import OrderCompleted from './pages/OrderCompleted';
 import MainLayout from './layouts/MainLayouts';
 import { Registration } from './pages/Registration';
-import { fetchAuthMe } from './redux/auth';
+import { fetchAuthMe, selectIsAuth } from './redux/auth';
 import Orders from './pages/Orders';
-
 const Cart = React.lazy(() => import(/* webpackChunkName:"Cart" */ './pages/Cart'));
 const FullItem = React.lazy(() => import(/* webpackChunkName:"FullItem" */ './pages/FullItem'));
 
 function App() {
   const dispatch = useDispatch();
+  const isAuth = useSelector(selectIsAuth);
 
   React.useEffect(() => {
     dispatch(fetchAuthMe());
@@ -26,8 +26,8 @@ function App() {
       <Route path="/" element={<MainLayout />}>
         <Route path="" element={<Home />} />
         <Route path="/orders" element={<Orders />} />
-        <Route path="/addgame" element={<AddGame />} />
-        <Route path="/products/:id/edit" element={<AddGame />} />
+        <Route path="/addpost" element={<AddPost />} />
+        <Route path="/products/:id/edit" element={<AddPost />} />
         <Route path="/login" element={<Login />} />
         <Route path="/registration" element={<Registration />} />
         <Route path="*" element={<NotFound />} />
