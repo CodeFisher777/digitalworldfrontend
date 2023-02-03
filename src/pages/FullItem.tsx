@@ -16,7 +16,7 @@ const FullItem: React.FC = () => {
   React.useEffect(() => {
     async function fetchItem() {
       try {
-        const { data } = await axios.get(`http://localhost:4444/products/${id}`);
+        const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/products/${id}`);
         setItem(data);
       } catch (error) {
         alert('Ошибка при получении 1 товара');
@@ -31,7 +31,7 @@ const FullItem: React.FC = () => {
   }
   return (
     <div className="full-item">
-      <img src={item.imageUrl ? `http://localhost:4444${item.imageUrl}` : ''} />
+      <img src={item.imageUrl ? `${process.env.REACT_APP_API_URL}${item.imageUrl}` : ''} />
       <div className="full-name">
         <h2>{item.title}</h2>
 

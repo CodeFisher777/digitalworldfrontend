@@ -119,7 +119,7 @@ export const Home: React.FC = () => {
       title={obj.title}
       text={obj.text}
       price={obj.price}
-      imageUrl={obj.imageUrl ? `http://localhost:4444${obj.imageUrl}` : ''}
+      imageUrl={obj.imageUrl ? `${process.env.REACT_APP_API_URL}${obj.imageUrl}` : ''}
     />
   ));
   const skeletons = [...new Array(6)].map((_, index) => <Skeleton key={index} />);
