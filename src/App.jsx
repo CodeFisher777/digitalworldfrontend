@@ -10,6 +10,7 @@ import OrderCompleted from './pages/OrderCompleted';
 import MainLayout from './layouts/MainLayouts';
 import { Registration } from './pages/Registration';
 import { fetchAuthMe, selectIsAuth } from './redux/auth';
+
 import Orders from './pages/Orders';
 const Cart = React.lazy(() => import(/* webpackChunkName:"Cart" */ './pages/Cart'));
 const FullItem = React.lazy(() => import(/* webpackChunkName:"FullItem" */ './pages/FullItem'));

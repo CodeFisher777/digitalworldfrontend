@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './OrderCompletedBlock.module.scss';
 import { useSelector } from 'react-redux';
-import { selectOrder } from '../../redux/order';
+import { selectOrder } from '../../redux/slices/order/selectors';
 
 const OrderCompletedBlock: React.FC = () => {
   const orderNumber = useSelector(selectOrder);

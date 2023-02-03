@@ -26,7 +26,7 @@ const Header: React.FC = () => {
   const { items, totalPrice } = useSelector(selectCart);
   const location = useLocation();
   const isMounted = React.useRef(false);
-
+  console.log(userData);
   const totalCount = items.reduce((sum: number, item: any) => sum + item.count, 0);
 
   const onClickLogout = () => {
@@ -126,7 +126,7 @@ const Header: React.FC = () => {
             <button className="button button--cart" onClick={onClickLogout}>
               Выйти
             </button>
-            <p>{userData.fullName}</p>
+            <p className="user-name">{userData.fullName}</p>
           </>
         ) : (
           <>

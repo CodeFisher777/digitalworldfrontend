@@ -32,13 +32,14 @@ const FullItem: React.FC = () => {
   return (
     <div className="full-item">
       <img src={item.imageUrl ? `http://localhost:4444${item.imageUrl}` : ''} />
-      <div className="ful-name">
+      <div className="full-name">
         <h2>{item.title}</h2>
-        <h4>{item.price} р</h4>
+
+        <h4>цена: {item.price} р. </h4>
       </div>
-
-      <ReactMarkdown children={item.text} />
-
+      <div className="full-text">
+        <ReactMarkdown children={item.text} />
+      </div>
       <Link to="/">
         <button className="button button--outline button--add">
           <span>Назад</span>

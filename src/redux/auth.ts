@@ -1,21 +1,51 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import axios from './axios';
+import { RootState } from './store';
 
-export const fetchAuth = createAsyncThunk('auth/fetchAuth', async (params) => {
-  const { data } = await axios.post('/auth/login', params);
-  return data;
-});
+export interface AuthSliceState {
+  data: any;
+  status: string;
+  master: boolean;
+}
+type FetchAuthArgs = {
+  email: string;
+  password: string;
+};
+type FetchRegisterArgs = {
+  fullName: string;
+  email: string;
+  password: string;
+};
+type FetchAuthMe = {
+  _id: string;
+  fullName: string;
+  email: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+};
 
-export const fetchRegister = createAsyncThunk('auth/fetchRegister', async (params) => {
-  const { data } = await axios.post('/auth/register', params);
-  return data;
-});
-export const fetchAuthMe = createAsyncThunk('auth/fetchAuthMe', async () => {
+export const fetchAuth = createAsyncThunk<Object, FetchAuthArgs>(
+  'auth/fetchAuth',
+  async (params) => {
+    const { data } = await axios.post('/auth/login', params);
+    return data;
+  },
+);
+
+export const fetchRegister = createAsyncThunk<Object, FetchRegisterArgs>(
+  'auth/fetchRegister',
+  async (params) => {
+    const { data } = await axios.post('/auth/register', params);
+    return data;
+  },
+);
+export const fetchAuthMe = createAsyncThunk<FetchAuthMe>('auth/fetchAuthMe', async () => {
   const { data } = await axios.get('/auth/me');
   return data;
 });
 
-const initialState = {
+const initialState: AuthSliceState = {
   data: null,
   status: 'loading',
   master: false,
@@ -78,8 +108,8 @@ const authSlice = createSlice({
   },
 });
 
-export const selectIsAuth = (state) => Boolean(state.auth.data);
-export const selectFullName = (state) => state.auth.data;
-export const selectMaster = (state) => state.auth.master;
+export const selectIsAuth = (state: RootState) => Boolean(state.auth.data);
+export const selectFullName = (state: RootState) => state.auth.data;
+export const selectMaster = (state: RootState) => state.auth.master;
 export const authReducer = authSlice.reducer;
 export const { logout, setMaster } = authSlice.actions;

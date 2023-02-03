@@ -5,7 +5,7 @@ import product from './slices/product/slice';
 
 import { useDispatch } from 'react-redux';
 import { authReducer } from './auth';
-import order from './order';
+import order from './slices/order/slice';
 
 export const store = configureStore({
   reducer: {

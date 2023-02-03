@@ -7,14 +7,18 @@ import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
-
+import { useAppDispatch } from '../../redux/store';
 import styles from './Login.module.scss';
 import { fetchAuth, selectIsAuth, selectFullName, setMaster } from '../../redux/auth';
 
+type Values = {
+  email: string;
+  password: string;
+};
 export const Login = () => {
   const isAuth = useSelector(selectIsAuth);
   const userData = useSelector(selectFullName);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   if (isAuth && userData._id === '63d10308858f5e5862e53d22') {
     dispatch(setMaster(true));
   }
@@ -31,13 +35,15 @@ export const Login = () => {
     mode: 'onChange',
   });
 
-  const onSubmit = async (values) => {
+  const onSubmit = async (values: Values) => {
     const data = await dispatch(fetchAuth(values));
 
     if (!data.payload) {
       return alert('Не удалось авторизоваться');
     }
+    //@ts-ignore
     if ('token' in data.payload) {
+      //@ts-ignore
       window.localStorage.setItem('token', data.payload.token);
     } else {
       alert('Ре удалось авторизоваться');

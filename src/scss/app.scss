@@ -372,20 +372,26 @@ body {
 }
 .full-item {
   margin: 0 auto;
-  width: 500px;
+  width: 800px;
+  display: block;
   p {
-    width: 500px;
+    width: 800px;
     word-break: break-word;
   }
   img {
-    justify-content: center;
+    margin-left: 200px;
+    width: 350px;
   }
 }
-.ful-name {
+
+.full-name {
   display: flex;
   justify-content: space-between;
+  margin-bottom: 10px;
+  h4 {
+    font-size: 20px;
+  }
 }
-
 .container_order {
   width: 1300px;
   margin: 0 auto;
@@ -394,4 +400,10 @@ body {
   p {
     margin-bottom: 20px;
   }
+}
+.full-text {
+  margin-bottom: 50px;
+}
+.user-name {
+  font-weight: 800;
 }
