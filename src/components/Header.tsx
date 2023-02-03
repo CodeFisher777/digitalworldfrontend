@@ -6,7 +6,14 @@ import Search from './Search';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectCart } from '../redux/slices/cart/selectors';
 
-import { fetchAuth, logout, selectFullName, selectIsAuth } from '../redux/auth';
+import {
+  fetchAuth,
+  logout,
+  selectFullName,
+  selectIsAuth,
+  selectMaster,
+  setMaster,
+} from '../redux/auth';
 import { clearItems } from '../redux/slices/cart/slice';
 
 const Header: React.FC = () => {
@@ -14,6 +21,7 @@ const Header: React.FC = () => {
   const dispatch = useDispatch();
   const isAuth = useSelector(selectIsAuth);
   const userData = useSelector(selectFullName);
+  const isMaster = useSelector(selectMaster);
 
   const { items, totalPrice } = useSelector(selectCart);
   const location = useLocation();
@@ -25,8 +33,10 @@ const Header: React.FC = () => {
     if (window.confirm('Are you sure want to logout?')) {
       dispatch(logout());
       dispatch(clearItems());
+      dispatch(setMaster(false));
       window.localStorage.removeItem('token');
       window.localStorage.removeItem('cart');
+
       navigate('/');
       // window.location.reload();
     }
@@ -40,8 +50,6 @@ const Header: React.FC = () => {
     }
     isMounted.current = true;
   }, [items]);
-
-  // if (isAuth && userData._id === '63d10308858f5e5862e53d22')
 
   return (
     <div className="header">
@@ -103,6 +111,18 @@ const Header: React.FC = () => {
         </div>
         {isAuth ? (
           <>
+            {isMaster ? (
+              <>
+                <Link to="/orders">
+                  <button className="button button--cart">Заказы</button>
+                </Link>
+                <Link to="/addgame">
+                  <button className="button button--cart">добавить товар</button>
+                </Link>
+              </>
+            ) : (
+              <></>
+            )}
             <button className="button button--cart" onClick={onClickLogout}>
               Выйти
             </button>

@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useAppDispatch } from '../redux/store';
 import qs from 'qs';
 import { sortList } from '../components/Sort';
-import { Categories, Sort, PizzaBlock, Skeleton, Pagination } from '../components';
+import { Categories, Sort, GameBlock, Skeleton, Pagination } from '../components';
 import { RootState } from '../redux/store';
 import { selectFilter, selectSortDirection } from '../redux/slices/filter/selectors';
 import { selectProduct } from '../redux/slices/product/selectors';
@@ -54,7 +54,6 @@ export const Home: React.FC = () => {
   React.useEffect(() => {
     if (window.location.search) {
       const params = qs.parse(window.location.search.substring(1)) as unknown as SerchProductParams;
-      console.log(params);
       const keys = Object.keys(params);
       const objKeys = {
         sortProperty: keys[1],
@@ -84,8 +83,10 @@ export const Home: React.FC = () => {
           }),
         );
       }
+    } else {
+      getProduct();
     }
-    // isSearch.current = true;
+    isSearch.current = true;
   }, []);
 
   React.useEffect(() => {
@@ -104,15 +105,15 @@ export const Home: React.FC = () => {
 
   React.useEffect(() => {
     window.scroll(0, 0);
-
+    getProduct();
     if (!isSearch.current) {
       getProduct();
     }
     isSearch.current = false;
   }, [categoryId, sortType, searchValue, currentPage, directionSort]);
 
-  const pizzas = items.map((obj: any) => (
-    <PizzaBlock
+  const games = items.map((obj: any) => (
+    <GameBlock
       key={obj._id}
       id={obj._id}
       title={obj.title}
@@ -133,7 +134,7 @@ export const Home: React.FC = () => {
       {status === 'error' ? (
         <div>ошибка при получении данных</div>
       ) : (
-        <div className="content__items">{status === 'loading' ? skeletons : pizzas}</div>
+        <div className="content__items">{status === 'loading' ? skeletons : games}</div>
       )}
       <Pagination currentPage={currentPage} onChangePage={onChangePage} />
     </div>

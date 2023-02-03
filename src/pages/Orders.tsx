@@ -1,4 +1,5 @@
 import React from 'react';
+
 import axios from '../redux/axios';
 import OrderBlock from '../components/OrderBlock';
 
@@ -11,17 +12,14 @@ const Orders: React.FC = () => {
   }, []);
 
   return (
-    <div className="container container--cart">
+    <div className="container_order">
       <div className="cart">
-        <div className="cart__top">
-          <h2 className="content__title">Заказы</h2>
-        </div>
-        <div className="content__items">
+        <div className="content__items_order">
           {
             //@ts-ignore
-            arrOrders.map((item) => (
+            arrOrders.reverse().map((item) => (
               //@ts-ignore
-              <OrderBlock key={item._id} orderRend={item.order} />
+              <OrderBlock key={item._id} orderRend={item.order} value={item.numberOrder} />
             ))
           }
         </div>

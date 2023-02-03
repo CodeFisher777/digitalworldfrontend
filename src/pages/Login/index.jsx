@@ -9,11 +9,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 
 import styles from './Login.module.scss';
-import { fetchAuth, selectIsAuth } from '../../redux/auth';
+import { fetchAuth, selectIsAuth, selectFullName, setMaster } from '../../redux/auth';
 
 export const Login = () => {
   const isAuth = useSelector(selectIsAuth);
+  const userData = useSelector(selectFullName);
   const dispatch = useDispatch();
+  if (isAuth && userData._id === '63d10308858f5e5862e53d22') {
+    dispatch(setMaster(true));
+  }
   const {
     register,
     handleSubmit,

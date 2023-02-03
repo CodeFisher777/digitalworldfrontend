@@ -97,6 +97,7 @@ body {
       margin: 0;
     }
   }
+
   @media (max-width: 806px) {
     flex-direction: column;
     .header__logo {
@@ -383,4 +384,14 @@ body {
 .ful-name {
   display: flex;
   justify-content: space-between;
+}
+
+.container_order {
+  width: 1300px;
+  margin: 0 auto;
+}
+.content__items_order {
+  p {
+    margin-bottom: 20px;
+  }
 }

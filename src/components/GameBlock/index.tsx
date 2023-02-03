@@ -11,14 +11,14 @@ import { addItem } from '../../redux/slices/cart/slice';
 import { CartItem } from '../../redux/slices/cart/types';
 import { fetchRemoveProduct } from '../../redux/slices/product/slice';
 
-type PizzaBlockProps = {
+type gameBlockProps = {
   id: string;
   text: string;
   title: string;
   price: number;
   imageUrl: string;
 };
-const PizzaBlock: React.FC<PizzaBlockProps> = ({ id, title, price, imageUrl }) => {
+const GameBlock: React.FC<gameBlockProps> = ({ id, title, price, imageUrl }) => {
   const dispatch = useDispatch();
 
   const cartItem = useSelector(selectCartItemById(id));
@@ -49,11 +49,11 @@ const PizzaBlock: React.FC<PizzaBlockProps> = ({ id, title, price, imageUrl }) =
     dispatch(addItem(item));
   };
   return (
-    <div className="pizza-block-wrapper">
-      <div className="pizza-block">
+    <div className="game-block-wrapper">
+      <div className="game-block">
         <Link to={`/products/${id}`}>
-          <img className="pizza-block__image" src={imageUrl} alt="Pizza" />
-          <h4 className="pizza-block__title">{title}</h4>
+          <img className="game-block__image" src={imageUrl} alt="game" />
+          <h4 className="game-block__title">{title}</h4>
         </Link>
 
         {isMaster ? (
@@ -71,8 +71,8 @@ const PizzaBlock: React.FC<PizzaBlockProps> = ({ id, title, price, imageUrl }) =
           <></>
         )}
 
-        <div className="pizza-block__bottom">
-          <div className="pizza-block__price">цена: {price} ₽</div>
+        <div className="game-block__bottom">
+          <div className="game-block__price">цена: {price} ₽</div>
           <button onClick={onAddItem} className="button button--outline button--add">
             <svg
               width="12"
@@ -94,4 +94,4 @@ const PizzaBlock: React.FC<PizzaBlockProps> = ({ id, title, price, imageUrl }) =
     </div>
   );
 };
-export default PizzaBlock;
+export default GameBlock;

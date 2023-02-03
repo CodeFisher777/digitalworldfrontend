@@ -9,9 +9,9 @@ import { selectFullName, selectIsAuth } from '../../redux/auth';
 import axios from '../../redux/axios';
 
 import 'easymde/dist/easymde.min.css';
-import styles from './AddPost.module.scss';
+import styles from './AddGame.module.scss';
 
-export const AddPost = () => {
+export const AddGame = () => {
   const userData = useSelector(selectFullName);
   const isAuth = useSelector(selectIsAuth);
   const navigate = useNavigate();

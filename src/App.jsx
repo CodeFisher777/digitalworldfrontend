@@ -2,7 +2,7 @@ import React from 'react';
 import './scss/app.scss';
 import { Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
-import { AddPost } from './pages/AddPost';
+import { AddGame } from './pages/AddGame';
 import { useDispatch, useSelector } from 'react-redux';
 import { Login } from './pages/Login';
 import NotFound from './pages/NotFound';
@@ -26,8 +26,8 @@ function App() {
       <Route path="/" element={<MainLayout />}>
         <Route path="" element={<Home />} />
         <Route path="/orders" element={<Orders />} />
-        <Route path="/addpost" element={<AddPost />} />
-        <Route path="/products/:id/edit" element={<AddPost />} />
+        <Route path="/addgame" element={<AddGame />} />
+        <Route path="/products/:id/edit" element={<AddGame />} />
         <Route path="/login" element={<Login />} />
         <Route path="/registration" element={<Registration />} />
         <Route path="*" element={<NotFound />} />

@@ -10,7 +10,7 @@ export const fetchProduct = createAsyncThunk<ProductItem[], FetchProductArgs>(
     //   `https://63ba93254482143a3f2ab5bc.mockapi.io/items?page=${currentPage}&limit=8&${category}&sortBy=${sortBy}&order=${order}&${search}`,
     // );
     const { data } = await axios.get<ProductItem[]>(
-      `/products?${category}&${sortBy}=${direction}&currentPage=${currentPage}`,
+      `/products?${category}&${sortBy}=${direction}&currentPage=${currentPage}&${search}`,
     );
 
     return data;
