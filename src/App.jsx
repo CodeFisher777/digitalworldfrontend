@@ -2,16 +2,20 @@ import React from 'react';
 import './scss/app.scss';
 import { Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
-import { AddGame } from './pages/AddGame';
 import { useDispatch, useSelector } from 'react-redux';
-import { Login } from './pages/Login';
 import NotFound from './pages/NotFound';
-import OrderCompleted from './pages/OrderCompleted';
 import MainLayout from './layouts/MainLayouts';
-import { Registration } from './pages/Registration';
 import { fetchAuthMe, selectIsAuth } from './redux/auth';
 
-import Orders from './pages/Orders';
+const Registration = React.lazy(() =>
+  import(/* webpackChunkName:"Registration" */ './pages/Registration'),
+);
+const Orders = React.lazy(() => import(/* webpackChunkName:"Orders" */ './pages/Orders'));
+const Login = React.lazy(() => import(/* webpackChunkName:"Login" */ './pages/Login'));
+const OrderCompleted = React.lazy(() =>
+  import(/* webpackChunkName:"OrderCompleted" */ './pages/OrderCompleted'),
+);
+const AddGame = React.lazy(() => import(/* webpackChunkName:"AddGame" */ './pages/AddGame'));
 const Cart = React.lazy(() => import(/* webpackChunkName:"Cart" */ './pages/Cart'));
 const FullItem = React.lazy(() => import(/* webpackChunkName:"FullItem" */ './pages/FullItem'));
 
@@ -26,13 +30,61 @@ function App() {
     <Routes>
       <Route path="/" element={<MainLayout />}>
         <Route path="" element={<Home />} />
-        <Route path="/orders" element={<Orders />} />
-        <Route path="/addgame" element={<AddGame />} />
-        <Route path="/products/:id/edit" element={<AddGame />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/registration" element={<Registration />} />
+        <Route
+          path="/orders"
+          element={
+            <React.Suspense fallback={<div>Загрузка</div>}>
+              {' '}
+              <Orders />{' '}
+            </React.Suspense>
+          }
+        />
+        <Route
+          path="/addgame"
+          element={
+            <React.Suspense fallback={<div>Загрузка</div>}>
+              {' '}
+              <AddGame />{' '}
+            </React.Suspense>
+          }
+        />
+        <Route
+          path="/products/:id/edit"
+          element={
+            <React.Suspense fallback={<div>Загрузка</div>}>
+              {' '}
+              <AddGame />{' '}
+            </React.Suspense>
+          }
+        />
+        <Route
+          path="/login"
+          element={
+            <React.Suspense fallback={<div>Загрузка</div>}>
+              {' '}
+              <Login />{' '}
+            </React.Suspense>
+          }
+        />
+        <Route
+          path="/registration"
+          element={
+            <React.Suspense fallback={<div>Загрузка</div>}>
+              {' '}
+              <Registration />{' '}
+            </React.Suspense>
+          }
+        />
         <Route path="*" element={<NotFound />} />
-        <Route path="/order-completed" element={<OrderCompleted />} />
+        <Route
+          path="/order-completed"
+          element={
+            <React.Suspense fallback={<div>Загрузка</div>}>
+              {' '}
+              <OrderCompleted />{' '}
+            </React.Suspense>
+          }
+        />
         <Route
           path="cart"
           element={

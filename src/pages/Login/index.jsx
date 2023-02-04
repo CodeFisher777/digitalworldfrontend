@@ -11,11 +11,7 @@ import { useAppDispatch } from '../../redux/store';
 import styles from './Login.module.scss';
 import { fetchAuth, selectIsAuth, selectFullName, setMaster } from '../../redux/auth';
 
-type Values = {
-  email: string;
-  password: string;
-};
-export const Login = () => {
+const Login = () => {
   const isAuth = useSelector(selectIsAuth);
   const userData = useSelector(selectFullName);
   const dispatch = useAppDispatch();
@@ -35,7 +31,7 @@ export const Login = () => {
     mode: 'onChange',
   });
 
-  const onSubmit = async (values: Values) => {
+  const onSubmit = async (values) => {
     const data = await dispatch(fetchAuth(values));
 
     if (!data.payload) {
@@ -87,3 +83,4 @@ export const Login = () => {
     </Paper>
   );
 };
+export default Login;

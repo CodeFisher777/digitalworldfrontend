@@ -11,7 +11,7 @@ import Avatar from '@mui/material/Avatar';
 import styles from './Login.module.scss';
 import { fetchAuth, fetchRegister, selectIsAuth } from '../../redux/auth';
 
-export const Registration = () => {
+const Registration = () => {
   window.scroll(0, 100);
   const isAuth = useSelector(selectIsAuth);
   const dispatch = useDispatch();
@@ -86,3 +86,4 @@ export const Registration = () => {
     </Paper>
   );
 };
+export default Registration;

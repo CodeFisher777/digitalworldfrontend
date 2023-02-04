@@ -24,7 +24,7 @@ export const AddGame = () => {
   const [rating, setRating] = React.useState('');
   const [category, setCategory] = React.useState('');
 
-  const inputFileRef = React.useRef < HTMLInputElement > null;
+  const inputFileRef = React.useRef(null);
   const isEditing = Boolean(id);
   const handleChangeFile = async (event) => {
     try {
