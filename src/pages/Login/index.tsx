@@ -11,13 +11,21 @@ import { useAppDispatch } from '../../redux/store';
 import styles from './Login.module.scss';
 import { fetchAuth, selectIsAuth, selectFullName, setMaster } from '../../redux/auth';
 
+type Values = {
+  email: string;
+  password: string;
+};
 const Login = () => {
   const isAuth = useSelector(selectIsAuth);
   const userData = useSelector(selectFullName);
   const dispatch = useAppDispatch();
-  if (isAuth && userData._id === '63d10308858f5e5862e53d22') {
-    dispatch(setMaster(true));
-  }
+
+  React.useEffect(() => {
+    if (isAuth && userData._id === '63d10308858f5e5862e53d22') {
+      dispatch(setMaster(true));
+    }
+  }, [isAuth, userData]);
+
   const {
     register,
     handleSubmit,
@@ -31,7 +39,7 @@ const Login = () => {
     mode: 'onChange',
   });
 
-  const onSubmit = async (values) => {
+  const onSubmit = async (values: Values) => {
     const data = await dispatch(fetchAuth(values));
 
     if (!data.payload) {

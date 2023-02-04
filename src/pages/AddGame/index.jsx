@@ -11,7 +11,7 @@ import axios from '../../redux/axios';
 import 'easymde/dist/easymde.min.css';
 import styles from './AddGame.module.scss';
 
-export const AddGame = () => {
+const AddGame = () => {
   const userData = useSelector(selectFullName);
   const isAuth = useSelector(selectIsAuth);
   const navigate = useNavigate();
@@ -80,7 +80,6 @@ export const AddGame = () => {
           setCategory(data.category);
           setRating(data.rating);
           setPrice(data.price);
-          console.log(data);
         })
 
         .catch((err) => {
@@ -174,3 +173,4 @@ export const AddGame = () => {
     } else return <Navigate to="/" />;
   }
 };
+export default AddGame;

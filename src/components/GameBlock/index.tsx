@@ -5,7 +5,6 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Clear';
 import { Link } from 'react-router-dom';
 import { selectIsAuth, selectFullName, selectMaster, setMaster } from '../../redux/auth';
-
 import { selectCartItemById } from '../../redux/slices/cart/selectors';
 import { addItem } from '../../redux/slices/cart/slice';
 import { CartItem } from '../../redux/slices/cart/types';
@@ -18,17 +17,18 @@ type gameBlockProps = {
   price: number;
   imageUrl: string;
 };
-const GameBlock: React.FC<gameBlockProps> = ({ id, title, price, imageUrl }) => {
+const GameBlock: React.FC<gameBlockProps> = ({ id, title, price, imageUrl, text }) => {
   const dispatch = useDispatch();
 
   const cartItem = useSelector(selectCartItemById(id));
   const isAuth = useSelector(selectIsAuth);
   const userData = useSelector(selectFullName);
   const isMaster = useSelector(selectMaster);
-
-  if (isAuth && userData._id === '63d10308858f5e5862e53d22') {
-    dispatch(setMaster(true));
-  }
+  React.useEffect(() => {
+    if (isAuth && userData._id === '63d10308858f5e5862e53d22') {
+      dispatch(setMaster(true));
+    }
+  }, []);
 
   const onClickRemove = () => {
     if (window.confirm('Вы действительно хотите удалить продукт?'))
